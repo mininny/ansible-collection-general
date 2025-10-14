@@ -32,7 +32,6 @@ chaos-mesh:
 # These will be created by our custom template
 physicalMachines:
 {% for host in groups['ethereum_node'] | sort %}
-{% if 'chaosd_state' in hostvars[host] and hostvars[host]['chaosd_state'] == 'present' %}
   - name: {{ hostvars[host]['inventory_hostname'] }}
     address: "https://<path:/secrets/services/services.enc.yaml#ethereum | jsonPath {.testnets.{{ devnet_name }}-devnets.node_ingress.combined}>@rpc.{{ hostvars[host]['inventory_hostname'] }}.{{ network_subdomain }}/chaosd/"
     labels:
@@ -50,6 +49,5 @@ physicalMachines:
       description: "{{ hostvars[host]['ethereum_node_cl'] | default('unknown') | title }} + {{ hostvars[host]['ethereum_node_el'] | default('unknown') | title }} node"
 {% if 'node_role' in hostvars[host] %}
       role: {{ hostvars[host]['node_role'] }}
-{% endif %}
 {% endif %}
 {% endfor %}
